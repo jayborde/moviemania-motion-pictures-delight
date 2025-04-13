@@ -12,7 +12,6 @@ import {
   fetchActionMovies,
   fetchComedyMovies,
   fetchHorrorMovies,
-  fetchRomanceMovies,
   fetchDocumentaries,
   MovieResponse
 } from "@/services/movieApi";
@@ -34,7 +33,6 @@ const HomePage = () => {
           actionMovies,
           comedyMovies,
           horrorMovies,
-          romanceMovies,
           documentaries
         ] = await Promise.all([
           fetchTrending(),
@@ -99,9 +97,6 @@ const HomePage = () => {
             )}
             {movies.horrorMovies && (
               <MovieRow title="Horror Movies" movies={movies.horrorMovies.results} />
-            )}
-            {movies.romanceMovies && (
-              <MovieRow title="Romance Movies" movies={movies.romanceMovies.results} />
             )}
             {movies.documentaries && (
               <MovieRow title="Documentaries" movies={movies.documentaries.results} />
