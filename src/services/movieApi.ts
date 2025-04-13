@@ -2,7 +2,7 @@
 import { toast } from "sonner";
 
 // Using OMDb API (The Open Movie Database)
-const API_KEY = "f1f10c16"; // Free OMDb API key for demo purposes
+const API_KEY = "2fd85b02"; // Free OMDb API key for demo purposes
 const BASE_URL = "https://www.omdbapi.com";
 const PLACEHOLDER_IMAGE = "/placeholder.svg";
 
