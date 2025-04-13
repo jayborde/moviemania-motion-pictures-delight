@@ -43,7 +43,6 @@ const HomePage = () => {
           fetchActionMovies(),
           fetchComedyMovies(),
           fetchHorrorMovies(),
-          fetchRomanceMovies(),
           fetchDocumentaries()
         ]);
 
@@ -54,7 +53,6 @@ const HomePage = () => {
           actionMovies,
           comedyMovies,
           horrorMovies,
-          romanceMovies,
           documentaries
         });
       } catch (error) {
