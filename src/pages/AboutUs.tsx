@@ -6,12 +6,10 @@ import { Github, Linkedin, Mail } from "lucide-react";
 const AboutUs = () => {
   const developers = [
     {
-      name: "John Doe",
+      name: "Premkumar Border",
       role: "Frontend Developer",
       bio: "Passionate about creating seamless user experiences with React and TypeScript.",
-      image: "https://picsum.photos/id/1012/300/300",
-      github: "https://github.com/johndoe",
-      linkedin: "https://linkedin.com/in/johndoe",
+      image: "https://sdmntprsouthcentralus.oaiusercontent.com/files/00000000-9904-61f7-9af3-9daf34388556/raw?se=2025-04-13T12%3A03%3A38Z&sp=r&sv=2024-08-04&sr=b&scid=d098ba57-0686-55d1-adb6-b32619ec33a0&skoid=dfdaf859-26f6-4fed-affc-1befb5ac1ac2&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-13T06%3A15%3A27Z&ske=2025-04-14T06%3A15%3A27Z&sks=b&skv=2024-08-04&sig=ZPxQ0PBE5e0xQpBx6RkgK1mLL7ys6m4IprkXHcdHwPc%3D",
       email: "john@moviemania.com"
     },
     {
