@@ -13,21 +13,17 @@ const AboutUs = () => {
       email: "john@moviemania.com"
     },
     {
-      name: "Jane Smith",
-      role: "UI/UX Designer",
+      name: "Pratik Kalmegh",
+      role: "Frontend Developer",
       bio: "Creative designer focused on intuitive interfaces and engaging visual experiences.",
-      image: "https://picsum.photos/id/1027/300/300",
-      github: "https://github.com/janesmith",
-      linkedin: "https://linkedin.com/in/janesmith",
+      image: "https://sdmntprsouthcentralus.oaiusercontent.com/files/00000000-9904-61f7-9af3-9daf34388556/raw?se=2025-04-13T12%3A03%3A38Z&sp=r&sv=2024-08-04&sr=b&scid=d098ba57-0686-55d1-adb6-b32619ec33a0&skoid=dfdaf859-26f6-4fed-affc-1befb5ac1ac2&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-13T06%3A15%3A27Z&ske=2025-04-14T06%3A15%3A27Z&sks=b&skv=2024-08-04&sig=ZPxQ0PBE5e0xQpBx6RkgK1mLL7ys6m4IprkXHcdHwPc%3D",
       email: "jane@moviemania.com"
     },
     {
-      name: "Michael Johnson",
-      role: "Backend Developer",
+      name: "Sanket Bhaltilak",
+      role: "Frontend Developer",
       bio: "API specialist with expertise in building scalable and secure backend solutions.",
-      image: "https://picsum.photos/id/1025/300/300",
-      github: "https://github.com/michaeljohnson",
-      linkedin: "https://linkedin.com/in/michaeljohnson",
+      image: "https://sdmntprsouthcentralus.oaiusercontent.com/files/00000000-9904-61f7-9af3-9daf34388556/raw?se=2025-04-13T12%3A03%3A38Z&sp=r&sv=2024-08-04&sr=b&scid=d098ba57-0686-55d1-adb6-b32619ec33a0&skoid=dfdaf859-26f6-4fed-affc-1befb5ac1ac2&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-13T06%3A15%3A27Z&ske=2025-04-14T06%3A15%3A27Z&sks=b&skv=2024-08-04&sig=ZPxQ0PBE5e0xQpBx6RkgK1mLL7ys6m4IprkXHcdHwPc%3D",
       email: "michael@moviemania.com"
     }
   ];
