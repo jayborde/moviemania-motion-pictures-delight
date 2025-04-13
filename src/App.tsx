@@ -13,6 +13,7 @@ import Watch from "./pages/Watch";
 import TvShows from "./pages/TvShows";
 import Movies from "./pages/Movies";
 import MyList from "./pages/MyList";
+import AboutUs from "./pages/AboutUs";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/tv-shows" element={<TvShows />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/my-list" element={<MyList />} />
+          <Route path="/about-us" element={<AboutUs />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
