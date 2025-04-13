@@ -1,13 +1,13 @@
 
 import { toast } from "sonner";
 
-// Using TMDB API
-const API_KEY = "3fd2be6f0c70a2a598f084ddfb75487c"; // This is a public API key for demo purposes
-const BASE_URL = "https://api.themoviedb.org/3";
-const IMAGE_BASE_URL = "https://image.tmdb.org/t/p";
+// Using OMDb API (The Open Movie Database)
+const API_KEY = "f1f10c16"; // Free OMDb API key for demo purposes
+const BASE_URL = "https://www.omdbapi.com";
+const PLACEHOLDER_IMAGE = "/placeholder.svg";
 
 export interface Movie {
-  id: number;
+  id: string;
   title: string;
   name?: string;
   poster_path: string;
@@ -17,6 +17,9 @@ export interface Movie {
   first_air_date?: string;
   vote_average: number;
   media_type?: string;
+  imdbID?: string;
+  Year?: string;
+  Type?: string;
 }
 
 export interface MovieResponse {
@@ -51,67 +54,199 @@ const fetchWithErrorHandling = async (url: string) => {
   }
 };
 
+// Helper function to transform OMDb item to our Movie interface format
+const transformOmdbToMovie = (item: any, mediaType = "movie"): Movie => {
+  return {
+    id: item.imdbID,
+    title: item.Title || "",
+    name: item.Title || "",
+    poster_path: item.Poster && item.Poster !== "N/A" ? item.Poster : "",
+    backdrop_path: item.Poster && item.Poster !== "N/A" ? item.Poster : "",
+    overview: item.Plot || "",
+    release_date: item.Year || "",
+    first_air_date: item.Year || "",
+    vote_average: parseFloat(item.imdbRating || "0") || 0,
+    media_type: mediaType,
+    imdbID: item.imdbID,
+    Year: item.Year,
+    Type: item.Type
+  };
+};
+
 // Fetch trending movies and TV shows
 export const fetchTrending = async (): Promise<MovieResponse> => {
-  return fetchWithErrorHandling(`${BASE_URL}/trending/all/week?api_key=${API_KEY}&language=en-US`);
+  // For trending, we'll search for popular terms
+  const movies = await Promise.all([
+    fetchWithErrorHandling(`${BASE_URL}/?apikey=${API_KEY}&s=marvel&type=movie&page=1`),
+    fetchWithErrorHandling(`${BASE_URL}/?apikey=${API_KEY}&s=star&type=movie&page=1`)
+  ]);
+  
+  const results = [...(movies[0].Search || []), ...(movies[1].Search || [])]
+    .map(item => transformOmdbToMovie(item));
+  
+  return {
+    results,
+    page: 1,
+    total_pages: 1,
+    total_results: results.length
+  };
 };
 
 // Fetch Netflix originals (TV shows)
 export const fetchNetflixOriginals = async (): Promise<MovieResponse> => {
-  return fetchWithErrorHandling(`${BASE_URL}/discover/tv?api_key=${API_KEY}&with_networks=213`);
+  const data = await fetchWithErrorHandling(`${BASE_URL}/?apikey=${API_KEY}&s=series&type=series&page=1`);
+  
+  const results = (data.Search || [])
+    .map(item => transformOmdbToMovie(item, "tv"));
+  
+  return {
+    results,
+    page: 1,
+    total_pages: 1,
+    total_results: results.length
+  };
 };
 
 // Fetch top rated movies
 export const fetchTopRated = async (): Promise<MovieResponse> => {
-  return fetchWithErrorHandling(`${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=en-US`);
+  const queries = ["drama", "action", "comedy"];
+  const index = Math.floor(Math.random() * queries.length);
+  
+  const data = await fetchWithErrorHandling(`${BASE_URL}/?apikey=${API_KEY}&s=${queries[index]}&type=movie&page=1`);
+  
+  const results = (data.Search || [])
+    .map(item => transformOmdbToMovie(item));
+  
+  return {
+    results,
+    page: 1,
+    total_pages: 1,
+    total_results: results.length
+  };
 };
 
 // Fetch action movies
 export const fetchActionMovies = async (): Promise<MovieResponse> => {
-  return fetchWithErrorHandling(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=28`);
+  const data = await fetchWithErrorHandling(`${BASE_URL}/?apikey=${API_KEY}&s=action&type=movie&page=1`);
+  
+  const results = (data.Search || [])
+    .map(item => transformOmdbToMovie(item));
+  
+  return {
+    results,
+    page: 1,
+    total_pages: 1,
+    total_results: results.length
+  };
 };
 
 // Fetch comedy movies
 export const fetchComedyMovies = async (): Promise<MovieResponse> => {
-  return fetchWithErrorHandling(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=35`);
+  const data = await fetchWithErrorHandling(`${BASE_URL}/?apikey=${API_KEY}&s=comedy&type=movie&page=1`);
+  
+  const results = (data.Search || [])
+    .map(item => transformOmdbToMovie(item));
+  
+  return {
+    results,
+    page: 1,
+    total_pages: 1,
+    total_results: results.length
+  };
 };
 
 // Fetch horror movies
 export const fetchHorrorMovies = async (): Promise<MovieResponse> => {
-  return fetchWithErrorHandling(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=27`);
+  const data = await fetchWithErrorHandling(`${BASE_URL}/?apikey=${API_KEY}&s=horror&type=movie&page=1`);
+  
+  const results = (data.Search || [])
+    .map(item => transformOmdbToMovie(item));
+  
+  return {
+    results,
+    page: 1,
+    total_pages: 1,
+    total_results: results.length
+  };
 };
 
 // Fetch romance movies
 export const fetchRomanceMovies = async (): Promise<MovieResponse> => {
-  return fetchWithErrorHandling(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=10749`);
+  const data = await fetchWithErrorHandling(`${BASE_URL}/?apikey=${API_KEY}&s=romance&type=movie&page=1`);
+  
+  const results = (data.Search || [])
+    .map(item => transformOmdbToMovie(item));
+  
+  return {
+    results,
+    page: 1,
+    total_pages: 1,
+    total_results: results.length
+  };
 };
 
 // Fetch documentaries
 export const fetchDocumentaries = async (): Promise<MovieResponse> => {
-  return fetchWithErrorHandling(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=99`);
+  const data = await fetchWithErrorHandling(`${BASE_URL}/?apikey=${API_KEY}&s=documentary&type=movie&page=1`);
+  
+  const results = (data.Search || [])
+    .map(item => transformOmdbToMovie(item));
+  
+  return {
+    results,
+    page: 1,
+    total_pages: 1,
+    total_results: results.length
+  };
 };
 
 // Fetch movie or TV show details
 export const fetchDetails = async (id: string, mediaType: string): Promise<Movie> => {
-  return fetchWithErrorHandling(`${BASE_URL}/${mediaType}/${id}?api_key=${API_KEY}&language=en-US`);
+  const data = await fetchWithErrorHandling(`${BASE_URL}/?apikey=${API_KEY}&i=${id}&plot=full`);
+  return transformOmdbToMovie(data, mediaType);
 };
 
-// Fetch videos for a movie or TV show
+// Fetch videos for a movie or TV show - OMDb doesn't provide trailer links
+// We'll create some mock data for demonstration
 export const fetchVideos = async (id: string, mediaType: string): Promise<VideosResponse> => {
-  return fetchWithErrorHandling(`${BASE_URL}/${mediaType}/${id}/videos?api_key=${API_KEY}&language=en-US`);
+  // Since OMDb doesn't provide video links, we'll use YouTube search API parameters
+  // to create a URL that would generally find a trailer for the movie/show
+  const details = await fetchDetails(id, mediaType);
+  const title = details.title || details.name || "";
+  
+  return {
+    results: [
+      {
+        key: `${title.replace(/\s+/g, '+')}+trailer`, // This will be used to construct a YouTube search
+        site: "YouTube",
+        type: "Trailer",
+        name: `${title} Official Trailer`
+      }
+    ]
+  };
 };
 
 // Search movies and TV shows
 export const searchMovies = async (query: string): Promise<MovieResponse> => {
-  return fetchWithErrorHandling(`${BASE_URL}/search/multi?api_key=${API_KEY}&language=en-US&query=${encodeURIComponent(query)}&page=1&include_adult=false`);
+  const data = await fetchWithErrorHandling(`${BASE_URL}/?apikey=${API_KEY}&s=${encodeURIComponent(query)}&page=1`);
+  
+  const results = (data.Search || [])
+    .map(item => transformOmdbToMovie(item, item.Type === "series" ? "tv" : "movie"));
+  
+  return {
+    results,
+    page: 1,
+    total_pages: 1,
+    total_results: results.length
+  };
 };
 
 // Get poster image URL
 export const getPosterUrl = (path: string, size = "w500"): string => {
-  return path ? `${IMAGE_BASE_URL}/${size}${path}` : "/placeholder.svg";
+  return path ? path : PLACEHOLDER_IMAGE;
 };
 
 // Get backdrop image URL
 export const getBackdropUrl = (path: string, size = "original"): string => {
-  return path ? `${IMAGE_BASE_URL}/${size}${path}` : "/placeholder.svg";
+  return path ? path : PLACEHOLDER_IMAGE;
 };

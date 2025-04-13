@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { fetchVideos, VideoResult } from "../services/movieApi";
+import { fetchVideos, fetchDetails, VideoResult } from "../services/movieApi";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -12,21 +12,22 @@ interface VideoPlayerProps {
 
 const VideoPlayer = ({ id, mediaType, onClose }: VideoPlayerProps) => {
   const [video, setVideo] = useState<VideoResult | null>(null);
+  const [movieTitle, setMovieTitle] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchVideoData = async () => {
       try {
         setIsLoading(true);
+        // Get video search term and movie details
         const data = await fetchVideos(id, mediaType);
+        const details = await fetchDetails(id, mediaType);
         
-        // Find a trailer, teaser or clip
-        const trailer = data.results.find(v => 
-          (v.type === "Trailer" || v.type === "Teaser" || v.type === "Clip") && 
-          v.site === "YouTube"
-        );
+        setMovieTitle(details.title || details.name || "");
         
-        setVideo(trailer || null);
+        if (data.results.length > 0) {
+          setVideo(data.results[0]);
+        }
       } catch (error) {
         console.error("Error fetching video:", error);
       } finally {
@@ -60,7 +61,7 @@ const VideoPlayer = ({ id, mediaType, onClose }: VideoPlayerProps) => {
         {video ? (
           <div className="aspect-video w-full">
             <iframe
-              src={`https://www.youtube.com/embed/${video.key}?autoplay=1&mute=0`}
+              src={`https://www.youtube.com/embed?search=${video.key}&autoplay=1`}
               title={video.name}
               className="w-full h-full"
               allowFullScreen
@@ -69,7 +70,7 @@ const VideoPlayer = ({ id, mediaType, onClose }: VideoPlayerProps) => {
           </div>
         ) : (
           <div className="aspect-video w-full bg-gray-900 flex items-center justify-center text-white">
-            <p>No trailer available</p>
+            <p>No trailer available for "{movieTitle}"</p>
           </div>
         )}
       </div>

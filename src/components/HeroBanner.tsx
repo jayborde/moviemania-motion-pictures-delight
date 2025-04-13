@@ -14,8 +14,10 @@ const HeroBanner = () => {
       try {
         const data = await fetchNetflixOriginals();
         // Select a random movie for the banner
-        const randomIndex = Math.floor(Math.random() * data.results.length);
-        setMovie(data.results[randomIndex]);
+        if (data.results.length > 0) {
+          const randomIndex = Math.floor(Math.random() * data.results.length);
+          setMovie(data.results[randomIndex]);
+        }
       } catch (error) {
         console.error("Error fetching banner movie:", error);
       } finally {
@@ -46,7 +48,7 @@ const HeroBanner = () => {
             {movie.title || movie.name}
           </h1>
           <p className="text-white/80 text-sm md:text-base line-clamp-3 md:line-clamp-4">
-            {movie.overview}
+            {movie.overview || `A ${movie.media_type} released in ${movie.Year}`}
           </p>
           <div className="flex space-x-3">
             <Link to={`/watch/${movie.id}?media_type=${movie.media_type || 'tv'}`}>
