@@ -50,13 +50,6 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        
-        <div className="text-sm">
-          <p>© 2023 Moviemania. All rights reserved.</p>
-          <p className="mt-2">
-            This is a demo application. Not affiliated with Netflix or any streaming service.
-          </p>
-        </div>
       </div>
     </footer>
   );
